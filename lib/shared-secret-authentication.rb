@@ -1,7 +1,9 @@
 require 'yaml'
 require 'digest'
 
-Dir['lib/shared-secret-authentication/*.rb'].each do |file|
-  require file
-end
-
+#Dir['shared-secret-authentication/*.rb'].each do |file|
+#  puts file
+#  require file
+#end
+require 'shared-secret-authentication/load_secret'
+require 'shared-secret-authentication/hash_signatures'
