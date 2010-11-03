@@ -16,7 +16,14 @@ module SharedSecretAuthentication
     string_keys = hash.keys.inject({}) {|keys, key| keys.merge!(key.to_s => key) }
     string_keys.keys.sort.each do |key|
       d.update key
-      d.update hash[string_keys[key]].to_s
+      value = hash[string_keys[key]]
+      if value.instance_of? Hash
+        value = value.collect {|k,v| k.to_s + v.to_s}
+      end
+      if value.instance_of? Array
+        value = value.sort
+      end
+      d.update value.to_s
     end
     d.update SHARED_SECRET
     d.to_s

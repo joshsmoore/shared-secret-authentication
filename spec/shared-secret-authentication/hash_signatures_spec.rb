@@ -1,5 +1,8 @@
 require 'spec/spec_helper'
 
+require 'rubygems'
+require 'activesupport'
+
 describe SharedSecretAuthentication do
   before(:all) do
     Object.const_set(:SHARED_SECRET, 'test')
@@ -47,9 +50,18 @@ describe SharedSecretAuthentication do
       SharedSecretAuthentication.hash_signature({'test' => 'me', 'different' => 'order', '1' => '2'}).should == SharedSecretAuthentication.hash_signature({'1' => '2', 'different' => 'order', 'test' => 'me'})
     end
 
+
     it 'should work for hash keys that are symbols' do
       SharedSecretAuthentication.hash_signature(:test => 'me', :key => 'test').should == 'b1a4b3df933590f973f07e6f0a391e95a8423e7b5250973f24e3174d60e8a1ac'
     end
 
+    context 'edge cases' do
+      it 'should produce the same signature for both hashes' do
+        hash1 = {"practices"=>{"name"=>"Body Image Physical Therapy & Fitness P.C.", "mysql_updated_at"=>Time.parse("Thu, 03 Jun 2010 19:15:03 UTC +00:00"), "mysql_id"=>79}}
+        hash2 = {"practices"=>{"mysql_updated_at"=>Time.parse("2010-06-03T19:15:03Z"), "name"=>"Body Image Physical Therapy & Fitness P.C.", "mysql_id"=>79}}
+        
+        SharedSecretAuthentication.hash_signature(hash1).should == SharedSecretAuthentication.hash_signature(hash2)
+      end
+    end
   end
 end
