@@ -1,12 +1,15 @@
 require 'spec/spec_helper'
 
-require 'rubygems'
-require 'activesupport'
-
 describe SharedSecretAuthentication do
   before(:all) do
+    Object.send(:remove_const, :SHARED_SECRET)
     Object.const_set(:SHARED_SECRET, 'test')
   end
+
+  describe '.standarize_string' do
+    it 'should produce the same hash for all arrays no matter what the order'
+  end
+
   describe '.sign_hash' do
     it 'should respond to sign_hash' do
       SharedSecretAuthentication.should respond_to :sign_hash
@@ -58,6 +61,13 @@ describe SharedSecretAuthentication do
     context 'edge cases' do
       it 'should produce the same signature for both hashes' do
         hash1 = {"practices"=>{"name"=>"Body Image Physical Therapy & Fitness P.C.", "mysql_updated_at"=>Time.parse("Thu, 03 Jun 2010 19:15:03 UTC +00:00"), "mysql_id"=>79}}
+        hash2 = {"practices"=>{"mysql_updated_at"=>Time.parse("2010-06-03T19:15:03Z"), "name"=>"Body Image Physical Therapy & Fitness P.C.", "mysql_id"=>79}}
+        
+        SharedSecretAuthentication.hash_signature(hash1).should == SharedSecretAuthentication.hash_signature(hash2)
+      end
+      
+      it 'should produce the same signature for times in different formats' do
+        hash1 = {"practices"=>{"name"=>"Body Image Physical Therapy & Fitness P.C.", "mysql_updated_at"=>DateTime.parse("Thu, 03 Jun 2010 19:15:03 UTC +00:00"), "mysql_id"=>79}}
         hash2 = {"practices"=>{"mysql_updated_at"=>Time.parse("2010-06-03T19:15:03Z"), "name"=>"Body Image Physical Therapy & Fitness P.C.", "mysql_id"=>79}}
         
         SharedSecretAuthentication.hash_signature(hash1).should == SharedSecretAuthentication.hash_signature(hash2)

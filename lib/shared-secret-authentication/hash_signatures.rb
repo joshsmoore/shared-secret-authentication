@@ -18,10 +18,19 @@ module SharedSecretAuthentication
       d.update key
       value = hash[string_keys[key]]
       if value.instance_of? Hash
-        value = value.collect {|k,v| k.to_s + v.to_s}
+        value = value.collect {|k,v| 
+          if v.respond_to? :strftime
+            k.to_s + v.strftime('%a %b %m %H:%M:%S %Y')
+          else
+            k.to_s + v.to_s
+          end
+        }
       end
+      
       if value.instance_of? Array
         value = value.sort
+      elsif value.respond_to? :strftime
+        value = value.strftime('%a %b %m %H:%M:%S %Y')
       end
       d.update value.to_s
     end
