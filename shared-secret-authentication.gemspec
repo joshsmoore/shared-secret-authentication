@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
      "lib/shared-secret-authentication.rb",
      "lib/shared-secret-authentication/hash_signatures.rb",
      "lib/shared-secret-authentication/load_secret.rb",
+     "shared-secret-authentication.gemspec",
      "spec/shared-secret-authentication/hash_signatures_spec.rb",
      "spec/shared-secret-authentication/load_secret_spec.rb",
      "spec/shared-secret-authentication_spec.rb",
