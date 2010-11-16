@@ -1,7 +1,7 @@
 puts "\n### Watching specs and features ... ###\n"
 
 #def cmd() 'bundle exec spec -O spec/spec.opts '; end
-def cmd() 'spec -O spec/spec.opts '; end
+def cmd() 'rspec '; end
  
 def run_all_specs
   system(cmd + 'spec/')
@@ -9,6 +9,7 @@ end
  
 def run_spec(spec)
   puts "Running #{spec}"
+  puts(cmd + spec)
   system(cmd + spec)
   puts
 end
