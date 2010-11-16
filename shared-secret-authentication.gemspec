@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{shared-secret-authentication}
-  s.version = "0.1.4"
+  s.version = "0.1.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Josh Moore"]
-  s.date = %q{2010-11-03}
+  s.date = %q{2010-11-16}
   s.description = %q{helper methods to make shared secret authentication easier}
   s.email = %q{joshsmoore@gmail.com}
   s.extra_rdoc_files = [
@@ -25,9 +25,11 @@ Gem::Specification.new do |s|
      "VERSION",
      "config/shared_secret.yml",
      "lib/shared-secret-authentication.rb",
+     "lib/shared-secret-authentication/generator.rb",
      "lib/shared-secret-authentication/hash_signatures.rb",
      "lib/shared-secret-authentication/load_secret.rb",
      "shared-secret-authentication.gemspec",
+     "spec/shared-secret-authentication/generator_spec.rb",
      "spec/shared-secret-authentication/hash_signatures_spec.rb",
      "spec/shared-secret-authentication/load_secret_spec.rb",
      "spec/shared-secret-authentication_spec.rb",
@@ -41,7 +43,8 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.7}
   s.summary = %q{helper methods to make shared secret authentication easier}
   s.test_files = [
-    "spec/shared-secret-authentication/hash_signatures_spec.rb",
+    "spec/shared-secret-authentication/generator_spec.rb",
+     "spec/shared-secret-authentication/hash_signatures_spec.rb",
      "spec/shared-secret-authentication/load_secret_spec.rb",
      "spec/shared-secret-authentication_spec.rb",
      "spec/spec_helper.rb"
