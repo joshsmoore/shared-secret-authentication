@@ -1,6 +1,37 @@
 = shared-secret-authentication
 
-Description goes here.
+The shared secret authentication gem's purpose it to authenticate the communication
+between to web services using a shared secret. While there are many means to accomplish
+this the currently implemented approach is to secure the parameters that are passed
+between the two applications. The parameters are secured by sending the SHA2
+signature of the parameters plus the shared secret along with the request.
+The receiving application can then check the signature and if it matches it knows
+that the request is not only came from an authorized application but that the
+parameters have not been tampered with either.
+
+== Setup
+
+Besides installing the shared-secret-authentication gem the only other required setup
+is a shared_secret.yml file in the config directory (relative to the root of the
+project).  The yaml file should look like this:
+
+shared_secret : your_shared_secret
+
+Once this file is in place you are ready to go.
+
+== Usage
+
+To sign a hash simply call <tt>SharedSecretAuthentication.sign_hash(hash)</tt>
+(hash is the hash you want to sign) and a key of 'signature' with a value of the
+checksum will be added to the hash.  Please note this changes the originally passed
+in hash.
+
+On the other side use <tt>SharedSecretAuthentication.hash_signature_correct?(hash)</tt>
+(hash is the hash you want to check the signature of).  True or false is returned if
+the checksum in 'signature' matches the checksum that is calculated locally.
+If the passed in hash does not have a key of 'signature' an exception is raised.
+Also the 'signature' key is deleted during this process.
+
 
 == Note on Patches/Pull Requests
  
