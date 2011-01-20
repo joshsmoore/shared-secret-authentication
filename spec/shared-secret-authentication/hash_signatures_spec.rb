@@ -48,14 +48,16 @@ describe SharedSecretAuthentication do
       SharedSecretAuthentication.hash_signature('test' => 'me').should == '95f5e1e8bc0f836d233fd108393d56f3c5532830c3fc29f54bd3a208de9699fd'
     end
 
-
     it 'should not matter what order the hash is defined it it should produce the same signature' do
       SharedSecretAuthentication.hash_signature({'test' => 'me', 'different' => 'order', '1' => '2'}).should == SharedSecretAuthentication.hash_signature({'1' => '2', 'different' => 'order', 'test' => 'me'})
     end
 
-
     it 'should work for hash keys that are symbols' do
       SharedSecretAuthentication.hash_signature(:test => 'me', :key => 'test').should == 'b1a4b3df933590f973f07e6f0a391e95a8423e7b5250973f24e3174d60e8a1ac'
+    end
+
+    it 'should work if the hash is signed in a different time zone' do
+      SharedSecretAuthentication.hash_signature_correct?({'visits' => {'visit_date' => Time.parse('2010-06-04T16:48:46Z'), 'mysql_id' => 1}, 'signature' => "d461a73c904fe4cd55b0eaa7212a89973f3126067bccf97775767575a26a148f"}).should be_true
     end
 
     context 'edge cases' do

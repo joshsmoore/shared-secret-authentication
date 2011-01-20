@@ -6,6 +6,7 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'shared-secret-authentication'
 require 'rspec'
 require 'rspec/autorun'
+require 'time'
 
 
 RSpec.configure do |config|

@@ -20,7 +20,11 @@ module SharedSecretAuthentication
       if value.instance_of? Hash
         value = value.collect {|k,v| 
           if v.respond_to? :strftime
-            k.to_s + v.strftime('%a %b %m %H:%M:%S %Y')
+            if v.respond_to? :utc
+              k.to_s + v.utc.strftime('%a %b %m %H:%M:%S %Y')
+            else
+              k.to_s + v.strftime('%a %b %m %H:%M:%S %Y')
+            end
           else
             k.to_s + v.to_s
           end
