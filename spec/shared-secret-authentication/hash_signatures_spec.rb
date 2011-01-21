@@ -60,6 +60,10 @@ describe SharedSecretAuthentication do
       SharedSecretAuthentication.hash_signature_correct?({'visits' => {'visit_date' => Time.parse('2010-06-04T16:48:46Z'), 'mysql_id' => 1}, 'signature' => "d461a73c904fe4cd55b0eaa7212a89973f3126067bccf97775767575a26a148f"}).should be_true
     end
 
+    it 'should work in different timezones or top level times' do
+      SharedSecretAuthentication.hash_signature_correct?({'visit_date' => Time.parse('2010-06-04T16:48:46Z'), 'signature' => "dc951a85cde77e5c10154e6284f2facc61393324ce84a9b5ecfe18d950a1e119"}).should be_true
+    end
+
     context 'edge cases' do
       it 'should produce the same signature for both hashes' do
         hash1 = {"practices"=>{"name"=>"Body Image Physical Therapy & Fitness P.C.", "mysql_updated_at"=>Time.parse("Thu, 03 Jun 2010 19:15:03 UTC +00:00"), "mysql_id"=>79}}
