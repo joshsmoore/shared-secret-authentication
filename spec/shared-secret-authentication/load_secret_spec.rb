@@ -7,12 +7,9 @@ describe 'load shared secret' do
   end
 
   it 'should load the shared_secret from config/shared_secret.yml' do
-    puts 'starting test'
-    file = StringIO.new(":shared_secret : my_shared_secret")
+    file = StringIO.new("shared_secret : my_shared_secret")
     File.stub!(:new).and_return(file)
-
     require 'lib/shared-secret-authentication/load_secret'
-    #file.should_receive(:read).once.and_return(file.read)
 
     SHARED_SECRET.should == 'my_shared_secret'
   end
