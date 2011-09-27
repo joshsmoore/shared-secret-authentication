@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{shared-secret-authentication}
-  s.version = "0.1.6"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Josh Moore"]
-  s.date = %q{2011-01-20}
+  s.date = %q{2011-09-27}
   s.description = %q{helper methods to make shared secret authentication easier}
   s.email = %q{joshsmoore@gmail.com}
   s.extra_rdoc_files = [
@@ -31,7 +31,6 @@ Gem::Specification.new do |s|
     "spec/shared-secret-authentication/generator_spec.rb",
     "spec/shared-secret-authentication/hash_signatures_spec.rb",
     "spec/shared-secret-authentication/load_secret_spec.rb",
-    "spec/shared-secret-authentication_spec.rb",
     "spec/spec.opts",
     "spec/spec_helper.rb",
     "watchr.rb"
@@ -44,7 +43,6 @@ Gem::Specification.new do |s|
     "spec/shared-secret-authentication/generator_spec.rb",
     "spec/shared-secret-authentication/hash_signatures_spec.rb",
     "spec/shared-secret-authentication/load_secret_spec.rb",
-    "spec/shared-secret-authentication_spec.rb",
     "spec/spec_helper.rb"
   ]
 
@@ -53,12 +51,12 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_development_dependency(%q<rspec>, [">= 2.0.0"])
+      s.add_development_dependency(%q<rspec>, [">= 1.2.9"])
     else
-      s.add_dependency(%q<rspec>, [">= 2.0.0"])
+      s.add_dependency(%q<rspec>, [">= 1.2.9"])
     end
   else
-    s.add_dependency(%q<rspec>, [">= 2.0.0"])
+    s.add_dependency(%q<rspec>, [">= 1.2.9"])
   end
 end
 
