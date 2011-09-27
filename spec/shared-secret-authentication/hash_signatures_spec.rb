@@ -8,6 +8,7 @@ describe SharedSecretAuthentication do
 
   describe '.standarize_string' do
     it 'should produce the same hash for all arrays no matter what the order'
+
   end
 
   describe '.sign_hash' do
@@ -64,7 +65,29 @@ describe SharedSecretAuthentication do
       SharedSecretAuthentication.hash_signature_correct?({'visit_date' => Time.parse('2010-06-04T16:48:46Z'), 'signature' => "dc951a85cde77e5c10154e6284f2facc61393324ce84a9b5ecfe18d950a1e119"}).should be_true
     end
 
+    it 'should convert dates in the array to strings' do
+      date = Date.today
+
+      d = Digest::SHA2.new
+      d.update 'eval_dates'
+      puts 'in test'
+      puts date.strftime('%a %b %m %H:%M:%S %Y').inspect
+      d.update date.strftime('%a %b %m %H:%M:%S %Y')
+      
+      puts ''
+      puts 'here'
+      puts ''
+      SharedSecretAuthentication.hash_signature({'eval_dates' => [date]}).should == d.to_s
+    end
+
     context 'edge cases' do
+
+      it 'should produce the same signature for date objects if the date is converted into a time' do
+        hash1 = {"cases" => {'last_date_seen' => Date.parse("Thu, 22 Apr 2010")}}
+        hash2 = {"cases" => {'last_date_seen' => Time.parse("Thu, 22 Apr 2010")}}
+
+        SharedSecretAuthentication.hash_signature(hash1).should == SharedSecretAuthentication.hash_signature(hash2)
+      end
       it 'should produce the same signature for both hashes' do
         hash1 = {"practices"=>{"name"=>"Body Image Physical Therapy & Fitness P.C.", "mysql_updated_at"=>Time.parse("Thu, 03 Jun 2010 19:15:03 UTC +00:00"), "mysql_id"=>79}}
         hash2 = {"practices"=>{"mysql_updated_at"=>Time.parse("2010-06-03T19:15:03Z"), "name"=>"Body Image Physical Therapy & Fitness P.C.", "mysql_id"=>79}}
