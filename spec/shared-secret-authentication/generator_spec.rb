@@ -1,5 +1,4 @@
-require "spec/spec_helper"
-
+require 'spec_helper'
 
 describe SharedSecretAuthentication::Generator do
   describe '.shared_secret' do

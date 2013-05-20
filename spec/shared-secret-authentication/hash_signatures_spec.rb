@@ -1,4 +1,4 @@
-require 'spec/spec_helper'
+require 'spec_helper'
 
 describe SharedSecretAuthentication do
   before(:all) do
@@ -19,7 +19,7 @@ describe SharedSecretAuthentication do
     it 'should add a "signature" key to the hash ' do
       SharedSecretAuthentication.sign_hash({'test' => 'me'}).keys.should include 'signature'
     end
-    
+
     it 'should assign the signature of the hash plus the shared string and make this the value of signature' do
       SharedSecretAuthentication.sign_hash('test' => 'me')['signature'].should == '95f5e1e8bc0f836d233fd108393d56f3c5532830c3fc29f54bd3a208de9699fd'
     end
@@ -67,16 +67,11 @@ describe SharedSecretAuthentication do
 
     it 'should convert dates in the array to strings' do
       date = Date.today
-
       d = Digest::SHA2.new
       d.update 'eval_dates'
-      puts 'in test'
-      puts date.strftime('%a %b %m %H:%M:%S %Y').inspect
       d.update date.strftime('%a %b %m %H:%M:%S %Y')
-      
-      puts ''
-      puts 'here'
-      puts ''
+      d.update SHARED_SECRET
+
       SharedSecretAuthentication.hash_signature({'eval_dates' => [date]}).should == d.to_s
     end
 
@@ -84,21 +79,22 @@ describe SharedSecretAuthentication do
 
       it 'should produce the same signature for date objects if the date is converted into a time' do
         hash1 = {"cases" => {'last_date_seen' => Date.parse("Thu, 22 Apr 2010")}}
-        hash2 = {"cases" => {'last_date_seen' => Time.parse("Thu, 22 Apr 2010")}}
+        hash2 = {"cases" => {'last_date_seen' => Time.utc(2010, 4, 22)}}
 
         SharedSecretAuthentication.hash_signature(hash1).should == SharedSecretAuthentication.hash_signature(hash2)
       end
+
       it 'should produce the same signature for both hashes' do
         hash1 = {"practices"=>{"name"=>"Body Image Physical Therapy & Fitness P.C.", "mysql_updated_at"=>Time.parse("Thu, 03 Jun 2010 19:15:03 UTC +00:00"), "mysql_id"=>79}}
         hash2 = {"practices"=>{"mysql_updated_at"=>Time.parse("2010-06-03T19:15:03Z"), "name"=>"Body Image Physical Therapy & Fitness P.C.", "mysql_id"=>79}}
-        
+
         SharedSecretAuthentication.hash_signature(hash1).should == SharedSecretAuthentication.hash_signature(hash2)
       end
-      
+
       it 'should produce the same signature for times in different formats' do
         hash1 = {"practices"=>{"name"=>"Body Image Physical Therapy & Fitness P.C.", "mysql_updated_at"=>DateTime.parse("Thu, 03 Jun 2010 19:15:03 UTC +00:00"), "mysql_id"=>79}}
         hash2 = {"practices"=>{"mysql_updated_at"=>Time.parse("2010-06-03T19:15:03Z"), "name"=>"Body Image Physical Therapy & Fitness P.C.", "mysql_id"=>79}}
-        
+
         SharedSecretAuthentication.hash_signature(hash1).should == SharedSecretAuthentication.hash_signature(hash2)
       end
     end
