@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email            = %q{joshsmoore@gmail.com}
   spec.description      = %q{helper methods to make shared secret authentication easier}
   spec.summary          = %q{helper methods to make shared secret authentication easier}
-  spec.date             = %q{2011-09-27}
+  spec.date             = %q{2013-05-20}
   spec.homepage         = %q{http://github.com/joshsmoore@gmail.com/shared-secret-authentication}
 
   spec.files            = `git ls-files`.split($/)
